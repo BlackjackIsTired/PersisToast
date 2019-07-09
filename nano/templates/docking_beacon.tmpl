@@ -1,0 +1,141 @@
+{{if data.connected}}
+	<h2>Connected to {{:data.name}}. Used for sending, recieving and constructing bluespace shuttles.</h2>
+	<br>
+	<div class='item'>
+		<div class='itemLabel'>
+			Current Status:
+		</div>
+		<div class='itemContent'>
+			{{:data.status}}
+		</div>
+	</div>
+	<div class='item'>
+		<div class='itemLabel'>
+			Linked to {{:data.name}}
+		</div>
+		<div class='itemContent'>
+			{{:helper.link('Disconnect from network', '', {'disconnect' : '1'}, null)}}
+		</div>
+	</div>
+	<div class='item'>
+		<div class='itemLabel'>
+			Toggle Power:
+		</div>
+		<div class='itemContent'>
+			{{:helper.link('Off', '', {'power_off' : '1'}, data.unpowered ? 'selected' : null)}}{{:helper.link('On', '', {'power_on' : '1'}, !data.unpowered ? 'selected' : null)}}
+		</div>
+	</div>
+	The beacon can only be unanchored and moved when the power is off. It will still retain its network sync during transport.
+	{{if !data.unpowered}}
+		<div class='item'>
+			<div class='itemLabel'>
+				Port ID:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link(data.id, '', {'change_id' : '1'}, null)}}
+			</div>
+		</div>
+		The Port ID is what is displayed when viewing the port from shuttle and station computers.
+		<div class='item'>
+			<div class='itemLabel'>
+				Dimension:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link('5X8', '', {'change_dimension' : '1'}, data.dimension == 1 ? 'selected' : null)}}{{:helper.link('7X8', '', {'change_dimension' : '2'}, data.dimension == 2 ? 'selected' : null)}}{{:helper.link('9X10', '', {'change_dimension' : '3'}, data.dimension == 3 ? 'selected' : null)}}
+			</div>
+		</div>
+		This defines the maximum shuttle size that can be constructed and docked at this beacon.
+		<div class='item'>
+			<div class='itemLabel'>
+				Visibility Mode:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link('Authorized Only', '', {'set_visible' : '0'}, data.visible == 0 ? 'selected' : null)}}{{:helper.link('Any Access', '', {'set_visible' : '1'}, data.visible == 1 ? 'selected' : null)}}
+			</div>
+		</div>
+		This defines whether the shuttle docks on a interior area or out in space.
+		<div class='item'>
+			<div class='itemLabel'>
+				Shuttle Dock:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link('Interior', '', {'set_interior' : '1'}, data.interior == 1 ? 'selected' : null)}}
+				{{:helper.link('Exterior', '', {'set_interior' : '0'}, data.interior == 0 ? 'selected' : null)}}
+			</div>
+		</div>
+		Authorized Only: Only those with proper access on the docks network can see and use the dock<br>
+		Any Access: The dock is visible and anyone can dock with it at any time
+		<div class='item'>
+			<div class='itemLabel'>
+				Operating Mode:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link('Closed', '', {'status_close' : '1'}, data.status == 'Closed' ? 'selected' : null)}}{{:helper.link('Open', '', {'status_open' : '1'}, data.status == 'Open' ? 'selected' : null)}}{{:helper.link('Shuttle Construction', '', {'status_construct' : '1'}, data.status == 'Shuttle Construction' ? 'selected' : null)}}{{:helper.link('Occupied', '', {'status_occupied' : '1'}, data.status == 'Occupied' ? 'selected' : 'disabled')}}{{:helper.link('Obstructed', '', {'status_occupied' : '1'}, data.status == 'Obstructed' ? 'selected' : 'disabled')}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Highlight Dock Area:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link('Highlight', '', {'highlight' : '1'}, data.highlighted ? 'selected' : null)}}
+			</div>
+		</div>
+		{{if data.construction}}
+			<br>
+			<h2>Shuttle Construction</h2><br><hr>
+			To construct a shuttle, you must start by building all the walls and floors.<br>
+			Make sure the construction zone has no blueprinted areas within it, it should be entirely free of gravity.<br>
+			Construct and anchor one or more shuttle engines.<br>
+			Build a single bridge computer where the shuttle will be directed from. It wont be powered until after the shuttle is finalized and you add an APC.<br>
+			And fill out all the below details, then click finalize at the very bottom.<br>
+			<div class='item'>
+				<div class='itemLabel'>
+					Starting Ownership Type:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link('Organization', '', {'Organization' : '1'}, data.individual ? null : 'selected')}}{{:helper.link('Individual', '', {'individual' : '1'}, data.individual ? 'selected' : null)}}
+				</div>
+			</div>
+			{{if data.individual}}
+				<div class='item'>
+					<div class='itemLabel'>
+						Starting Owner:
+					</div>
+					<div class='itemContent'>
+						{{:data.owner}}{{:helper.link('Change', '', {'change_owner' : '1'}, null)}}
+					</div>
+				</div>
+			{{else}}
+				<div class='item'>
+					<div class='itemLabel'>
+						Starting Owner:
+					</div>
+					<div class='itemContent'>
+						{{:data.owner}}
+					</div>
+				</div>
+				Swipe a linked ID to set the organization.
+			{{/if}}
+			<div class='item'>
+				<div class='itemLabel'>
+					Shuttle Name:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.name, '', {'change_name' : '1'}, null)}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Finalize Construction:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link('Finalize', '', {'finalize' : '1'}, null)}}
+				</div>
+			</div>
+		{{/if}}
+	{{/if}}
+{{else}}
+	<h2>This beacon is not synced to a network. Authorized personel can sync this beacon to a network.</h2>
+	{{:helper.link('Sync to network', '', {'sync' : '1'}, null)}}
+{{/if}}
